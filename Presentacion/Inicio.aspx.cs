@@ -15,8 +15,8 @@ namespace Presentacion
         {
             ProductosNegocio negocio = new ProductosNegocio();
 
-            dgvProductos.DataSource = negocio.Listar();
-            dgvProductos.DataBind();
+            repProductos.DataSource = negocio.Listar();
+            repProductos.DataBind();
         }
     }
 }

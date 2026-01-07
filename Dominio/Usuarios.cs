@@ -14,7 +14,13 @@ namespace Dominio
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Telefono { get; set; }
-        public int TipoUsuario { get; set; }
+        public TiposUsuario TiposUsuario { get; set; }
         public DateTime FechaRegistro { get; set; }
+
+        public Usuarios()
+        {
+            TiposUsuario = new TiposUsuario();
+        }
+
     }
 }

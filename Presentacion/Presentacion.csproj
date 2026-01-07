@@ -69,6 +69,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Inicio.aspx" />
+    <Content Include="CSS\misEstilos.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
