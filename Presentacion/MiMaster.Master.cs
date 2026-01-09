@@ -13,5 +13,10 @@ namespace Presentacion
         {
 
         }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
