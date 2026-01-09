@@ -16,11 +16,10 @@ namespace Dominio
         public string Telefono { get; set; }
         public TiposUsuario TiposUsuario { get; set; }
         public DateTime FechaRegistro { get; set; }
-
+        public bool Activo { get; set; }
         public Usuarios()
         {
             TiposUsuario = new TiposUsuario();
         }
-
     }
 }
