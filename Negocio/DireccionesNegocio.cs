@@ -52,6 +52,48 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public Direcciones BuscarPorId(int id, int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Select Id, IdUsuario, Calle, Numero, Localidad, CodigoPostal, Activo From Direcciones Where Id = @Id and IdUsuario = @IdUsuario");
+                datos.setearParametro("@Id", id);
+                datos.setearParametro("@IdUsuario", idUsuario);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Direcciones aux = new Direcciones();
+
+                    aux.Id = (int)datos.Lector["Id"];
+
+                    aux.IdUsuario = new Usuarios();
+                    aux.IdUsuario.Id = (int)datos.Lector["IdUsuario"];
+                    
+                    aux.Calle = (string)datos.Lector["Calle"];
+                    aux.Numero = (int)datos.Lector["Numero"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.CodigoPostal = (string)datos.Lector["CodigoPostal"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+                    return aux;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al buscar Usuario" + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         //El cliente va apoder agregar direcciones
         public void Agregar(Direcciones direccion)
         {

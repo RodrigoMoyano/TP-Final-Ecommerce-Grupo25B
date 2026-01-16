@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +18,9 @@ namespace Presentacion
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            string buscar = txtBuscar.Text;
 
+            Response.Redirect("Inicio.aspx?buscar=" + buscar, false);
         }
     }
 }

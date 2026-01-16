@@ -5,6 +5,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder" runat="server">
 
+    <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-warning text-center d-block mt-3" Visible="false"></asp:Label>
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
 
         <asp:Repeater ID="repProductos" runat="server">

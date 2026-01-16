@@ -40,6 +40,37 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public FormasPago BuscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Select Id, Descripcion, Activo From FormasPago Where Id = @Id");
+                datos.setearParametro("@Id", id);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    FormasPago aux = new FormasPago();
+
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+
+                    return aux;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al buscar Forma de Pago");
+            }
+            finally { datos.cerrarConexion();}
+        }
         public void Agregar(FormasPago formasPago)
         {
             AccesoDatos datos =new AccesoDatos();

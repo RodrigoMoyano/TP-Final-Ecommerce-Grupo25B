@@ -48,6 +48,50 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        //Buscar Usuario por ID
+        public Usuarios BuscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Select U.Id, U.Email, U.Nombre, U.Apellido, U.Telefono, TP.Id as IdTipo, TP.Descripcion, U.FechaRegistro, U.Activo From Usuarios U Inner Join TiposUsuario TP ON U.TipoUsuario = TP.Id Where U.Id = @Id");
+                datos.setearParametro("@Id", id);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Usuarios aux = new Usuarios();
+
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Email = (string)datos.Lector["Email"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.FechaRegistro = (DateTime)datos.Lector["FechaRegistro"];
+                    aux.Activo = (bool)datos.Lector["Activo"];
+
+                    aux.TiposUsuario = new TiposUsuario();
+                    aux.TiposUsuario.Id = (int)datos.Lector["IdTipo"];
+                    aux.TiposUsuario.Descripcion = (string)datos.Lector["Descripcion"];
+                    
+                    return aux;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al buscar Usuario" + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         //El Registro para el Cliente
         public void AgregarCliente(Usuarios usuario)
         {
@@ -55,19 +99,18 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("Insert Into Usuarios (Email, Clave, Nombre, Apellido, Telefono, TipoUsuario, FechaRegistro, Activo) Values (@Email, @Clave, @Nombre, @Apellido, @Telefono, 2, @FechaRegistro, 1)");
+                datos.setearConsulta("Insert Into Usuarios (Email, Clave, Nombre, Apellido, Telefono, TipoUsuario, FechaRegistro, Activo) Values (@Email, @Clave, @Nombre, @Apellido, @Telefono, 2, GETDATE(), 1)");
                 datos.setearParametro("@Email", usuario.Email);
                 datos.setearParametro("@Clave", usuario.Clave);
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Telefono", usuario.Telefono);
-                datos.setearParametro("@FechaRegistro", usuario.FechaRegistro);
 
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al agregar usuario." + ex.Message);
+                throw new Exception("Error al agregar usuario." + ex.Message, ex);
             }
         }
         //Con usuario Administrador, puedo generar tanto un usuario cliente, como un usuario admin, eligiendo el tipousuario
@@ -77,14 +120,13 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("Insert Into Usuarios (Email, Clave, Nombre, Apellido, Telefono, TipoUsuario, FechaRegistro, Activo) Values (@Email, @Clave, @Nombre, @Apellido, @Telefono, @TipoUsuario, @FechaRegistro, 1)");
+                datos.setearConsulta("Insert Into Usuarios (Email, Clave, Nombre, Apellido, Telefono, TipoUsuario, FechaRegistro, Activo) Values (@Email, @Clave, @Nombre, @Apellido, @Telefono, @TipoUsuario, GETDATE(), 1)");
                 datos.setearParametro("@Email", usuario.Email);
                 datos.setearParametro("@Clave", usuario.Clave);
                 datos.setearParametro("@Nombre", usuario.Nombre);
                 datos.setearParametro("@Apellido", usuario.Apellido);
                 datos.setearParametro("@Telefono", usuario.Telefono);
                 datos.setearParametro("@TipoUsuario", usuario.TiposUsuario);
-                datos.setearParametro("@FechaRegistro", usuario.FechaRegistro);
 
                 datos.ejecutarAccion();
             }

@@ -13,10 +13,32 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ProductosNegocio negocio = new ProductosNegocio();
+            
+            if (!IsPostBack){
 
-            repProductos.DataSource = negocio.Listar();
-            repProductos.DataBind();
+                ProductosNegocio negocio = new ProductosNegocio();
+                List<Productos> lista;
+
+                if (Request.QueryString["buscar"] != null)
+                {
+                    string filtro = Request.QueryString["buscar"];
+
+                    lista = negocio.BuscarPorNombre(filtro);
+                }
+                else
+                {
+                    lista = negocio.Listar();
+                }
+
+                if(lista.Count == 0) 
+                {
+                    lblMensaje.Text = "No se encontraron productos para tu busqueda.";
+                    lblMensaje.Visible = true;
+                }
+
+                repProductos.DataSource = lista;
+                repProductos.DataBind();
+            }
         }
     }
 }
