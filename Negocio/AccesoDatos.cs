@@ -31,6 +31,8 @@ namespace Negocio
         {
             comando.CommandType = System.Data.CommandType.Text;
             comando.CommandText = consulta;
+
+            comando.Parameters.Clear();
         }
         //Configura procedimiento almacenado
         public void setearProcedimiento(string sp)
@@ -73,6 +75,28 @@ namespace Negocio
             {
 
                 throw ex;
+            }
+        }
+
+        //Sevuelve un solo valor
+        public int EjecutarAccionEscalar()
+        {
+            comando.Connection = conexion;
+
+            try
+            {
+                conexion.Open();
+                object resultado = comando.ExecuteScalar();
+                return resultado != null ? Convert.ToInt32(resultado) : 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al ejecutar accion escalar." + ex.Message, ex);
+            }
+            finally
+            {
+                cerrarConexion();
             }
         }
         //Cierro la conexion

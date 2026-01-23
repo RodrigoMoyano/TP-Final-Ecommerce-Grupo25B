@@ -7,6 +7,8 @@
 
     <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-warning text-center d-block mt-3" Visible="false"></asp:Label>
 
+    <div id="mensajeRegistro" runat="server" visible="false" class="msjRegistro"></div>
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
 
         <asp:Repeater ID="repProductos" runat="server">

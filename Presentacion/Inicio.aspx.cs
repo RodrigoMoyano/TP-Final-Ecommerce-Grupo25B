@@ -38,6 +38,14 @@ namespace Presentacion
 
                 repProductos.DataSource = lista;
                 repProductos.DataBind();
+
+                string msg = Request.QueryString["msg"];
+
+                if (msg == "registrado")
+                {
+                    mensajeRegistro.Visible = true;
+                    mensajeRegistro.InnerHtml = "✓ Registrado exitosamente.";
+                }
             }
         }
     }

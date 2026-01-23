@@ -13,13 +13,20 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack) { }
         }
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
+            lblMensaje.Text = "";
             try
             {
+                Page.Validate();
+                if(!Page.IsValid)
+                {
+                    return;
+                }
+
                 Usuarios client = new Usuarios();
 
                 client.Email = txtEmail.Text;
@@ -29,6 +36,11 @@ namespace Presentacion
                 client.Telefono = txtTelefono.Text;
 
                 UsuariosNegocio negocio = new UsuariosNegocio();
+                if(negocio.ExisteEmail(client.Email))
+                {
+                    lblMensaje.Text = "Error: El usuario ya fue registro.";
+                    return;
+                }
                 
                 negocio.AgregarCliente(client);
                 Response.Redirect("Inicio.aspx?msg=registrado", false);
@@ -36,7 +48,7 @@ namespace Presentacion
             catch (Exception ex)
             {
                 string msg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                lblMensaje.Text = "Error al registrar Cliente: " + ex.InnerException.Message;
+                lblMensaje.Text = "Error al registrar Cliente: " + msg;
             }
         }
 

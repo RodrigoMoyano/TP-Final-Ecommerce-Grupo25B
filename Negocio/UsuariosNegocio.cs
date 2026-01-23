@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -216,6 +217,25 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public bool ExisteEmail(string emailExistente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("Select Count(*) From Usuarios Where Email = @Email");
+                datos.setearParametro("@email", emailExistente);
+
+                int count = datos.EjecutarAccionEscalar();
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception ("Correo existente", ex);
             }
         }
     }

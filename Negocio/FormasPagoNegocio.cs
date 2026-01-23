@@ -67,7 +67,7 @@ namespace Negocio
             catch (Exception ex)
             {
 
-                throw new Exception("Error al buscar Forma de Pago");
+                throw new Exception("Error al buscar Forma de Pago" + ex.Message);
             }
             finally { datos.cerrarConexion();}
         }
